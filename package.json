@@ -1,5 +1,5 @@
 {
-  "name": "phonebook",
+  "name": "backend",
   "version": "1.0.0",
   "description": "A phonebook directory",
   "main": "index.js",
@@ -10,7 +10,8 @@
   },
   "keywords": [
     "phonebook",
-    "directory"
+    "directory",
+    "backend"
   ],
   "author": "OnanThairu",
   "license": "MIT",
