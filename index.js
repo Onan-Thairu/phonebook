@@ -14,20 +14,21 @@ app.use(morgan('tiny'))
 app.use(cors())
 
 
-// app.get('/info', (request, response) => {
-//     const noOfPple = persons.length
-//     const time = new Date()
-//     response.send(`
-//     <p>Phonebook has info for ${noOfPple} people.</p>
-//     <p>${time}</p>
-//     `)
-// })
-
-
+app.get('/info', (request, response) => {
+    Person.find({}).then(result => {
+        const noOfPple = result.length
+        const time = new Date()
+        response.send(`
+        <p>Phonebook has info for ${noOfPple} people.</p>
+        <p>${time}</p>
+        `)
+    })
+})
 
 app.get('/api/persons', (request, response) => {
     Person.find({}).then(persons => {
-        response.json(persons)
+        console.log(persons.length)
+        return response.json(persons)
     })
 })
 
