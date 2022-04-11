@@ -27,7 +27,6 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     Person.find({}).then(persons => {
-        console.log(persons.length)
         return response.json(persons)
     })
 })
@@ -59,28 +58,22 @@ morgan.token('postLog', (req, res) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postLog'))
 
-app.post('/api/persons/', (request, response) => {
+app.post('/api/persons/', (request, response, next) => {
     const body = request.body
 
-    if (body.name === undefined || body.number === undefined){
-        return response.status(400).json({error:'Content missing'})
-    } 
-    // else {
-    //     Person.find({}).then(p => {
-    //         if(p.name === body.name) {
-    //             return response.status(400).json({error:'Name must be unique'})
-    //         } 
-    //     })
-    // }
     const person = new Person({
         name: body.name,
         number: body.number
     })
 
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
-    })
-    
+    person.save()
+        .then(savedPerson => {
+            response.json(savedPerson)
+        })
+        .catch(error => {
+            next(error)
+        })
+
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
